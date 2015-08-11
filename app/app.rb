@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require './app/models/link'
+require './data_mapper_setup'
 
 
 class BookmarkManager < Sinatra::Base
