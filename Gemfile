@@ -9,5 +9,6 @@ gem 'dm-postgres-adapter'
 gem 'sinatra'
 gem 'rspec-sinatra'
 gem 'database_cleaner'
+gem 'puma'
 
 # gem "rails"
