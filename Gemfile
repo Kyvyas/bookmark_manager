@@ -10,5 +10,6 @@ gem 'sinatra'
 gem 'rspec-sinatra'
 gem 'database_cleaner'
 gem 'rack'
+gem 'bcrypt'
 
 # gem "rails"
