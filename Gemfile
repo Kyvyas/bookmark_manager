@@ -13,6 +13,7 @@ gem 'dm-validations'
 gem 'sinatra-flash'
 gem 'byebug'
 gem 'launchy'
+gem 'sinatra-partial'
 
 
 group :development, :test do
