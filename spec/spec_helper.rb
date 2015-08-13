@@ -3,6 +3,7 @@ ENV['RACK_ENV'] = 'test'
 require 'capybara/rspec'
 require 'database_cleaner'
 require 'capybara'
+require 'factory_girl'
 
 require File.join(File.dirname(__FILE__), '..', 'app/app.rb')
 
@@ -56,6 +57,11 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
   end
+
+  config.include FactoryGirl::Syntax::Methods
+
+  FactoryGirl.definition_file_paths = %w{./factories ./spec/factories}
+  FactoryGirl.find_definitions
 
   config.before(:each) do
     DatabaseCleaner.start
