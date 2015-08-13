@@ -1,4 +1,3 @@
-require 'byebug'
 
 feature 'User sign up' do
   

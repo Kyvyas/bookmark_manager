@@ -8,7 +8,7 @@ require_relative 'helpers/session'
 
 require File.join(File.dirname(__FILE__), '..', 'app/app.rb')
 
-Capybara.app = BookmarkManager
+Capybara.app = Armadillo::BookmarkManager
 
 # require File.join(File.dirname(__FILE__), '..', 'app/models/link.rb')
 

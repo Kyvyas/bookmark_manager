@@ -1,94 +1,104 @@
 require 'sinatra/base'
 require 'sinatra/flash'
-require './data_mapper_setup'
+require_relative 'data_mapper_setup'
 require 'sinatra/partial'
 
 
-class BookmarkManager < Sinatra::Base
+require_relative 'controllers/base.rb'
+require_relative 'controllers/link.rb'
+require_relative 'controllers/session.rb'
+require_relative 'controllers/user.rb'
 
-  set :views, proc { File.join(root, '..', 'views') }
 
-  enable :sessions
-  set :session_secret, 'super secret'
-  register Sinatra::Flash
-  register Sinatra::Partial
 
-  set :partial_template_engine, :erb
+module Armadillo
 
-  use Rack::MethodOverride
+  class BookmarkManager < Sinatra::Base
 
-  get '/' do
-    "Hello Bookmark Manager"
-  end
+    use Routes::Link
+    use Routes::User
+    use Routes::Session
 
-  get '/links' do
-    @links = Link.all
-    erb :'links/index'
-  end
+    # set :views, proc { File.join(root, '..', 'views') }
 
-  get '/links/new' do
-    erb :'links/form'
-  end
+    # enable :sessions
+    # set :session_secret, 'super secret'
+    # register Sinatra::Flash
+    # register Sinatra::Partial
 
-  post '/links' do
-    link = Link.new(url: params[:url],     
-                title: params[:title])
-    params[:tags].split(" ").each do |t|
-      tag  = Tag.create(name: t) 
-      link.tags << tag  
-    end                   
-    link.save 
-    redirect '/links'
-  end
+    # set :partial_template_engine, :erb
 
-  get '/tags/:name' do
-    tag = Tag.first(name: params[:name])
-    @links = tag ? tag.links : []
-    erb :'links/index'
-  end
+    # use Rack::MethodOverride
 
-  get '/users/new' do
-    @user = User.new
-    erb :'users/new'
-  end
-
-  post '/users' do
-    @user = User.new(email: params[:email],
-                    password: params[:password],
-                    password_confirmation: params[:password_confirmation])
-    if @user.save
-      session[:user_id] = @user.id
-      redirect to('/links')
-    else
-      flash.now[:errors] = @user.errors.full_messages
-      erb :'users/new'
+    get '/' do
+      "Hello Bookmark Manager"
     end
-  end
 
-  get '/sessions/new' do
-    erb :'sessions/new'
-  end
+    # get '/links' do
+    #   @links = Link.all
+    #   erb :'links/index'
+    # end
 
-  post '/sessions' do
-    user = User.authenticate(params[:email], params[:password])
-    if user
-      session[:user_id] = user.id
-      redirect to('/links')
-    else
-      flash.now[:errors] = ['The email or password is incorrect']
-      erb :'sessions/new'
-    end
-  end
+    # get '/links/new' do
+    #   erb :'links/form'
+    # end
 
-  delete '/sessions' do
-    session.clear
-    flash[:notice] = ['goodbye!']
-  end
+    # post '/links' do
+    #   link = Link.new(url: params[:url],     
+    #               title: params[:title])
+    #   params[:tags].split(" ").each do |t|
+    #     tag  = Tag.create(name: t) 
+    #     link.tags << tag  
+    #   end                   
+    #   link.save 
+    #   redirect '/links'
+    # end
 
-  helpers do
-    def current_user
-      User.get(session[:user_id])
-    end
-  end
+    # get '/tags/:name' do
+    #   tag = Tag.first(name: params[:name])
+    #   @links = tag ? tag.links : []
+    #   erb :'links/index'
+    # end
 
+    # get '/users/new' do
+    #   @user = User.new
+    #   erb :'users/new'
+    # end
+
+    # post '/users' do
+    #   @user = User.new(email: params[:email],
+    #                   password: params[:password],
+    #                   password_confirmation: params[:password_confirmation])
+    #   if @user.save
+    #     session[:user_id] = @user.id
+    #     redirect to('/links')
+    #   else
+    #     flash.now[:errors] = @user.errors.full_messages
+    #     erb :'users/new'
+    #   end
+    # end
+
+    # get '/sessions/new' do
+    #   erb :'sessions/new'
+    # end
+
+    # post '/sessions' do
+    #   user = User.authenticate(params[:email], params[:password])
+    #   if user
+    #     session[:user_id] = user.id
+    #     redirect to('/links')
+    #   else
+    #     flash.now[:errors] = ['The email or password is incorrect']
+    #     erb :'sessions/new'
+    #   end
+    # end
+
+    # delete '/sessions' do
+    #   session.clear
+    #   flash[:notice] = ['goodbye!']
+    # end
+
+    
+    run! if app_file == $0
+  end
 end
