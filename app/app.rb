@@ -3,21 +3,18 @@ require 'sinatra/flash'
 require_relative 'data_mapper_setup'
 require 'sinatra/partial'
 
-
 require_relative 'controllers/base.rb'
 require_relative 'controllers/link.rb'
 require_relative 'controllers/session.rb'
 require_relative 'controllers/user.rb'
 
-
-
 module Armadillo
 
   class BookmarkManager < Sinatra::Base
 
-    use Routes::Link
-    use Routes::User
-    use Routes::Session
+    use Routes::LinkRoute
+    use Routes::UserRoute
+    use Routes::SessionRoute
 
     # set :views, proc { File.join(root, '..', 'views') }
 

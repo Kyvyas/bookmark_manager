@@ -3,7 +3,7 @@ require_relative './../data_mapper_setup'
 
 module Armadillo
   module Routes
-    class Link < Base
+    class LinkRoute < Base
 
     get '/links' do
         @links = Link.all

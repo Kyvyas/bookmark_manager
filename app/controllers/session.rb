@@ -2,7 +2,7 @@ require_relative './base.rb'
 
 module Armadillo
   module Routes
-    class Session < Base
+    class SessionRoute < Base
 
       get '/sessions/new' do
           erb :'sessions/new'

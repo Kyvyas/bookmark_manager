@@ -2,7 +2,7 @@ require_relative './base.rb'
 
 module Armadillo
   module Routes
-    class User < Base
+    class UserRoute < Base
 
     get '/users/new' do
         @user = User.new
