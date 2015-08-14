@@ -1,17 +1,18 @@
 require_relative '../data_mapper_setup'
-# require 'sinatra/partial'
+require 'sinatra/partial'
 
 module Armadillo
   module Routes
     class Base < Sinatra::Base
       enable :sessions
       register Sinatra::Flash
-      # register Sinatra::Partial
+      register Sinatra::Partial
       set :session_secret, 'super secret'
       use Rack::MethodOverride
       set :views, proc { File.join(root, '..', 'views') }
 
-
+      set :partial_template_engine, :erb
+      
       helpers do
       def current_user
         User.get(session[:user_id])

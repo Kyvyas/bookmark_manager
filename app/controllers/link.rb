@@ -1,5 +1,5 @@
 require_relative './base.rb'
-require_relative './../data_mapper_setup'
+# require_relative './../data_mapper_setup'
 
 module Armadillo
   module Routes
